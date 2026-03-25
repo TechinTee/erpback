@@ -1,14 +1,25 @@
 package main
-
-import "github.com/gofiber/fiber/v3"
-import "fmt"
+import (
+	"os"
+    "fmt"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+)
 
 func main() {
     app := fiber.New()
 
-    app.Get("/", func(c fiber.Ctx) error {
-        return c.SendString("Hello, World!!!")
+    app.Use(cors.New())
+
+    app.Get("/commingsoon", func(c fiber.Ctx) error {
+        return c.SendString("COMMING SOON")
     })
-    fmt.Println("Sussess")
-    app.Listen(":3000")
+    fmt.Println("Sussessfully running on port 3000")
+    
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	app.Listen(":" + port)
 }
